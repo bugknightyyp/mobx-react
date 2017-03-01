@@ -7,14 +7,14 @@ import inject from './inject';
 /**
  * dev tool support
  */
-let isDevtoolsEnabled = false;
+let isDevtoolsEnabled = false;// 是否可以使用开发工具
 
-let isUsingStaticRendering = false;
+let isUsingStaticRendering = false;// 是否使用静态渲染
 
-let warnedAboutObserverInjectDeprecation = false;
+let warnedAboutObserverInjectDeprecation = false; //当反对使用Observer注入时，是否警告
 
 // WeakMap<Node, Object>;
-export const componentByNodeRegistery = typeof WeakMap !== "undefined" ? new WeakMap() : undefined;
+export const componentByNodeRegistery = typeof WeakMap !== "undefined" ? new WeakMap() : undefined; //通过node注册组件
 export const renderReporter = new EventEmitter();
 
 function findDOMNode(component) {
@@ -30,7 +30,7 @@ function reportRendering(component) {
 
   renderReporter.emit({
     event: 'render',
-    renderTime: component.__$mobRenderEnd - component.__$mobRenderStart,
+    renderTime: component.__$mobRenderEnd - component.__$mobRenderStart,// 渲染时间
     totalTime: Date.now() - component.__$mobRenderStart,
     component: component,
     node: node
@@ -170,20 +170,20 @@ const reactiveMixin = {
             }
           }
         }
-      });
+      });//new reactin end
       reactiveRender.$mobx = reaction;
       this.render = reactiveRender;
       return reactiveRender();
-    };
+    }; //initialRender end
 
-    const reactiveRender = () => {
+    const reactiveRender = () => {// 第2次以后执行的render
       isRenderingPending = false;
       let rendering = undefined;
-      reaction.track(() => {
+      reaction.track(() => {//执行 render 方法，并收集依赖
         if (isDevtoolsEnabled) {
           this.__$mobRenderStart = Date.now();
         }
-        rendering = mobx.extras.allowStateChanges(false, baseRender);
+        rendering = mobx.extras.allowStateChanges(false, baseRender);// render 方法里不允许修改 observable
         if (isDevtoolsEnabled) {
           this.__$mobRenderEnd = Date.now();
         }
