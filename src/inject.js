@@ -52,7 +52,7 @@ function createStoreInjector(grabStoresFn, component, injectNames) {
       for (let key in additionalProps) {
         newProps[key] = additionalProps[key];
       }
-      newProps.ref = this.storeRef
+      newProps.ref = this.storeRef// 关于 ref的使用看这里 https://facebook.github.io/react/docs/refs-and-the-dom.html
 
       return React.createElement(component, newProps);
     }
@@ -71,11 +71,11 @@ function createStoreInjector(grabStoresFn, component, injectNames) {
 function grabStoresByName(storeNames) {
   return function (baseStores, nextProps) {
     storeNames.forEach(function (storeName) {
-      if (storeName in nextProps) // prefer props over stores
+      if (storeName in nextProps) // prefer props over stores  // 如果nextProps中已经存在了 就不用再传递了
         return;
       if (!(storeName in baseStores))
         throw new Error("MobX observer: Store '" + storeName + "' is not available! Make sure it is provided by some Provider");
-      nextProps[storeName] = baseStores[storeName];
+      nextProps[storeName] = baseStores[storeName];// 根据storeName，不存在 nextProps,而存在baseStores里的store, 传递给 nextProps
     });
     return nextProps;
   }
