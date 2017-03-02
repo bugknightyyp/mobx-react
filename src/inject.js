@@ -7,7 +7,7 @@ const injectorContextTypes = {
 };
 Object.seal(injectorContextTypes);
 
-const proxiedInjectorProps = {
+const proxiedInjectorProps = {//代理
   contextTypes: {
     get: function () {
       return injectorContextTypes;
@@ -47,6 +47,7 @@ function createStoreInjector(grabStoresFn, component, injectNames) {
       for (let key in this.props) if (this.props.hasOwnProperty(key)) {
         newProps[key] = this.props[key];
       }
+      //从this.context.mobxStores复制特定值到 nextProps
       var additionalProps = grabStoresFn(this.context.mobxStores || {}, newProps, this.context) || {};
       for (let key in additionalProps) {
         newProps[key] = additionalProps[key];
@@ -88,7 +89,7 @@ function grabStoresByName(storeNames) {
  */
 export default function inject(/* fn(stores, nextProps) or ...storeNames */) {
   let grabStoresFn;
-  if (typeof arguments[0] === "function") {
+  if (typeof arguments[0] === "function") {//
     grabStoresFn = arguments[0];
     return function (componentClass) {
       let injected = createStoreInjector(grabStoresFn, componentClass);

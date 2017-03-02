@@ -21,12 +21,12 @@ export default class Provider extends Component {
     // inherit stores
     const baseStores = this.context.mobxStores;
     if (baseStores) for (let key in baseStores) {
-      stores[key] = baseStores[key];
+      stores[key] = baseStores[key];// 复制this.context.mobxStores上的数据
     }
     // add own stores
     for (let key in this.props)
-      if (!specialReactKeys[key] && key !== "suppressChangedStoreWarning")
-        stores[key] = this.props[key];
+      if (!specialReactKeys[key] && key !== "suppressChangedStoreWarning")// 抑制改变store警告
+        stores[key] = this.props[key]; // 复制this.props上的数据
     return {
       mobxStores: stores
     };

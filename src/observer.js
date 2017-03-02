@@ -75,11 +75,11 @@ function isObjectShallowModified(prev, next) {
     return prev !== next;
   }
   const keys = Object.keys(prev);
-  if (keys.length !== Object.keys(next).length) {
+  if (keys.length !== Object.keys(next).length) {// 字段数量不一样
     return true;
   }
   let key;
-  for (let i = keys.length - 1; i >= 0, key = keys[i]; i--) {
+  for (let i = keys.length - 1; i >= 0, key = keys[i]; i--) {//key数量一样时，比较key的value
     if (next[key] !== prev[key]) {
       return true;
     }
@@ -122,7 +122,7 @@ const reactiveMixin = {
             return valueHolder;
           },
           set: function set(v) {
-            if (!isForcingUpdate && isObjectShallowModified(valueHolder, v)) {
+            if (!isForcingUpdate && isObjectShallowModified(valueHolder, v)) {//
               valueHolder = v;
               skipRender = true;
               atom.reportChanged();
@@ -159,9 +159,9 @@ const reactiveMixin = {
             // However, people also claim this migth happen during unit tests..
             let hasError = true;
             try {
-              isForcingUpdate = true;
+              isForcingUpdate = true;// 当该reaction依赖的 observable 发生变化时，isForcingUpdate = true
               if (!skipRender)
-                React.Component.prototype.forceUpdate.call(this);
+                React.Component.prototype.forceUpdate.call(this);// 异步执行
               hasError = false;
             } finally {
               isForcingUpdate = false;
@@ -172,9 +172,9 @@ const reactiveMixin = {
         }
       });//new reactin end
       reactiveRender.$mobx = reaction;
-      this.render = reactiveRender;
+      this.render = reactiveRender;// 第一次render后，render方法就改变了
       return reactiveRender();
-    }; //initialRender end
+    };
 
     const reactiveRender = () => {// 第2次以后执行的render
       isRenderingPending = false;
@@ -231,7 +231,7 @@ const reactiveMixin = {
     // update on any state changes (as is the default)
     if (this.state !== nextState) {
       return true;
-    }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      }
     // update if props are shallowly not equal, inspired by PureRenderMixin
     // we could return just 'false' here, and avoid the `skipRender` checks etc
     // however, it is nicer if lifecycle events are triggered like usually,
