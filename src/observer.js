@@ -70,7 +70,7 @@ function patch(target, funcName, runMixinFirst = false) {
   }
 }
 
-function isObjectShallowModified(prev, next) {
+function isObjectShallowModified(prev, next) {// 对象是不是被浅修改
   if (null == prev || null == next || typeof prev !== "object" || typeof next !== "object") {
     return prev !== next;
   }
@@ -231,7 +231,7 @@ const reactiveMixin = {
     // update on any state changes (as is the default)
     if (this.state !== nextState) {
       return true;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      }
+    }
     // update if props are shallowly not equal, inspired by PureRenderMixin
     // we could return just 'false' here, and avoid the `skipRender` checks etc
     // however, it is nicer if lifecycle events are triggered like usually,
@@ -269,7 +269,7 @@ export function observer(arg1, arg2) {
   // Stateless function component:
   // If it is function but doesn't seem to be a react class constructor,
   // wrap it to a react class automatically
-  if (
+  if (// 对于无状态函数包装成 react component constructor
     typeof componentClass === "function" &&
     (!componentClass.prototype || !componentClass.prototype.render) && !componentClass.isReactClass && !React.Component.isPrototypeOf(componentClass)
   ) {
@@ -294,7 +294,7 @@ export function observer(arg1, arg2) {
 }
 
 function mixinLifecycleEvents(target) {
-  patch(target, "componentWillMount", true);
+  patch(target, "componentWillMount", true);//runMixinFirst true
   [
     "componentDidMount",
     "componentWillUnmount",
